@@ -1,0 +1,12 @@
+.cat-info {
+    display: flex;
+   
+}
+
+.wrap {
+    margin-left: 30px;
+}
+
+p {
+    width: auto;
+}

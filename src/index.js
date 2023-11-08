@@ -4,21 +4,20 @@ axios.defaults.headers.common['x-api-key'] =
   'live_goF1XJ8NekrIrROIWJxE03bbF4rjAqaHyUoJRlyK6yhL04ajZE5jw15qaKHkW6pj';
 const refs = {
   select: document.querySelector('.breed-select'),
+  catInfo: document.querySelector('.cat-info'),
 };
 function fetchBreeds() {
   const BASE_URL = 'https://api.thecatapi.com';
   const END_POINT = '/v1/breeds';
 
-  const url = BASE_URL + END_POINT;
-  return fetch(url)
+  const url = `${BASE_URL}${END_POINT}`;
+  return axios
+    .get(url)
     .then(response => {
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('HTTP error, status = ' + response.status);
       }
-      return response.json();
-    })
-    .then(breeds => {
-      return breeds;
+      return response.data;
     })
     .catch(error => {
       console.error('Помилка під час отримання порід: ' + error.message);
@@ -45,17 +44,13 @@ function fetchCatByBreed(breedId) {
 
   const url = `${BASE_URL}${END_POINT}${PARAMS}`;
   //console.log(url); // --------------------------------------------------------------------------------DELETE---------------------------------------
-  return fetch(url)
+  return axios
+    .get(url)
     .then(response => {
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('HTTP error, status = ' + response.status);
       }
-      return response.json();
-    })
-    .then(data => {
-      // data - це дані про кота
-      return data;
-      //console.log(data);
+      return response.data;
     })
     .catch(error => {
       console.error(
@@ -64,14 +59,46 @@ function fetchCatByBreed(breedId) {
       return null;
     });
 }
+
+let catName;
+let catDescription;
+let catTemperament;
+let catUrl;
+
 refs.select.addEventListener('change', function () {
   const selectedBreedId = refs.select.value;
 
   fetchCatByBreed(selectedBreedId).then(catData => {
     if (catData) {
-      console.log(catData); // -----------------------------------------INFO --------------------------
+      //console.log(catData); // -----------------------------------------INFO --------------------------
+      catData.forEach(data => {
+        catUrl = data.url;
+
+        console.log(data.url);
+        data.breeds.forEach(info => {
+          // console.log(info);
+          catName = info.name;
+          console.log(info.name);
+          console.log(info.temperament);
+          console.log(info.description);
+          catDescription = info.description;
+          catTemperament = `<span style="font-weight: bold">Temperament:</span> ${info.temperament}`;
+        });
+        renderCat(catUrl, catName, catDescription, catTemperament);
+        //console.log(data.breeds);
+        //console.log(data.url);
+      });
     } else {
       console.log('Інформація про кота не знайдена.');
     }
   });
 });
+
+function renderCat(catUrl, catName, catDescription, catTemperament) {
+  const markup = ` <div><img src="${catUrl}" alt="${catName}" width='400px' height='400px'></div>
+     <div class='wrap'> <h1>${catName}</h1>
+      <p>${catDescription}</p>
+      <p>${catTemperament}</p></div>`;
+  //refs.catInfo.insertAdjacentHTML('afterbegin', markup);
+  refs.catInfo.innerHTML = markup;
+}

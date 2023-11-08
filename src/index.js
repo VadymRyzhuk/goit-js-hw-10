@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+axios.defaults.headers.common['x-api-key'] =
+  'live_goF1XJ8NekrIrROIWJxE03bbF4rjAqaHyUoJRlyK6yhL04ajZE5jw15qaKHkW6pj';
 const refs = {
   select: document.querySelector('.breed-select'),
 };

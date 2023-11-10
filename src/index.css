@@ -1,6 +1,17 @@
+.hidden {
+    display: none;
+}
+
+
+.breed-select {
+    font-size: 20px;
+    border-radius: 1px;
+    border-color: blue;
+}
+
 .cat-info {
     display: flex;
-   
+   margin-top: 50px;
 }
 
 .wrap {
@@ -10,3 +21,9 @@
 p {
     width: auto;
 }
+
+img {
+    width: 370px;
+    height: 270px;
+}
+

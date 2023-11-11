@@ -1,16 +1,13 @@
 import { fetchBreeds, fetchCatByBreed, refs } from './cat-api.js';
 
-let errorText = ''; //----------------------------------------------------------------------------------------------------------------------
+let errorText = '';
 
 fetchBreeds().then(breeds => {
-  //console.log(breeds); // ------------------------------------------------------------DELETE ------------------------------------------
   breeds.forEach(breed => {
     const option = document.createElement('option');
     option.value = breed.id;
     option.textContent = breed.name;
     refs.select.appendChild(option);
-    //console.log(breed.reference_image_id);
-    //console.log(breed);
   });
 });
 
@@ -35,16 +32,16 @@ refs.select.addEventListener('change', function () {
           });
           renderCat(catUrl, catName, catDescription, catTemperament);
         });
-        refs.errorInfo.classList.add('hidden'); // При успіху, ховаємо блок помилки
+        refs.errorInfo.classList.add('hidden');
       } else {
         refs.errorInfo.classList.remove('hidden');
-        refs.catInfo.innerHTML = ''; // Очищуємо блок інформації про кота
+        refs.catInfo.innerHTML = '';
       }
     })
     .catch(error => {
       refs.errorInfo.textContent = error.message;
       refs.errorInfo.classList.remove('hidden');
-      refs.catInfo.innerHTML = ''; // Очищуємо блок інформації про кота
+      refs.catInfo.innerHTML = '';
     });
 });
 

@@ -18,7 +18,6 @@ function toggleLoader(showLoader) {
 function toggleError(showError, errorMessage) {
   refs.errorInfo.style.display = showError ? 'block' : 'none';
 
-  // Показувати текст помилки у будь-якому випадку помилки
   if (showError) {
     refs.errorInfo.textContent = errorMessage;
   }
@@ -39,7 +38,7 @@ export function fetchBreeds() {
       return response.data;
     })
     .catch(error => {
-      console.error('Помилка під час отримання порід: ' + error.message);
+      //console.error('Помилка під час отримання порід: ' + error.message);
       toggleError(true, refs.errorInfo.textContent);
       return [];
     })
@@ -57,14 +56,14 @@ export function fetchCatByBreed(breedId) {
   const PARAMS = `?breed_ids=${breedId}`;
 
   const url = `${BASE_URL}${END_POINT}${PARAMS}`;
-  //console.log(url); // --------------------------------------------------------------------------------DELETE---------------------------------------
+
   return axios
     .get(url)
     .then(response => {
       if (response.status !== 200) {
         throw new Error('HTTP error, status = ' + response.status);
       }
-      //return response.data;
+
       const data = response.data;
 
       if (data.length === 0) {
@@ -74,13 +73,10 @@ export function fetchCatByBreed(breedId) {
       return data;
     })
     .catch(error => {
-      console.error(
-        'Помилка під час отримання інформації про кота: ' + error.message
-      );
       toggleError(true);
       throw error;
     })
     .finally(() => {
-      toggleLoader(false); // Приховати завантажувач після отримання інформації про кота
+      toggleLoader(false);
     });
 }

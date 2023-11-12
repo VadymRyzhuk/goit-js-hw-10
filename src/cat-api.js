@@ -1,3 +1,4 @@
+import axios from 'axios';
 export function fetchBreeds() {
   const BASE_URL = 'https://api.thecatapi.com';
   const END_POINT = '/v1/breeds';

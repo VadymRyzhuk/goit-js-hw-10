@@ -1,5 +1,4 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
-import axios from 'axios';
 
 axios.defaults.headers.common['x-api-key'] =
   'live_goF1XJ8NekrIrROIWJxE03bbF4rjAqaHyUoJRlyK6yhL04ajZE5jw15qaKHkW6pj';
@@ -30,6 +29,8 @@ refs.select.addEventListener('change', function () {
       const catName = catData.breeds.name;
       const catDescription = catData.breeds.description;
       const catTemperament = catData.breeds.temperament;
+      const markup = renderCat(catUrl, catName, catDescription, catTemperament);
+      refs.catInfo.innerHTML = markup;
     })
     .catch(error => {
       refs.errorInfo.classList.remove('hidden');
@@ -38,8 +39,6 @@ refs.select.addEventListener('change', function () {
     .finally(() => {
       refs.loader.classList.add('hidden');
     });
-  const markup = renderCat(catUrl, catName, catDescription, catTemperament);
-  refs.catInfo.innerHTML = markup;
 });
 
 function renderCat(catUrl, catName, catDescription, catTemperament) {

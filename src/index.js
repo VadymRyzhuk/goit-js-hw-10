@@ -7,16 +7,23 @@ const refs = {
   errorInfo: document.querySelector('.error'),
 };
 
-fetchBreeds().then(breeds => {
-  const options = breeds.map(breed => {
-    const option = document.createElement('option');
-    option.value = breed.id;
-    option.textContent = breed.name;
-    return option;
+fetchBreeds()
+  .then(breeds => {
+    const options = breeds.map(breed => {
+      const option = document.createElement('option');
+      option.value = breed.id;
+      option.textContent = breed.name;
+      return option;
+    });
+    refs.select.append(...options);
+  })
+  .catch(error => {
+    refs.errorInfo.classList.remove('hidden');
+    refs.catInfo.innerHTML = '';
+  })
+  .finally(() => {
+    refs.loader.classList.add('hidden');
   });
-
-  refs.select.append(...options);
-});
 
 refs.select.addEventListener('change', function () {
   refs.loader.classList.remove('hidden');

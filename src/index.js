@@ -1,14 +1,11 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 
-axios.defaults.headers.common['x-api-key'] =
-  'live_goF1XJ8NekrIrROIWJxE03bbF4rjAqaHyUoJRlyK6yhL04ajZE5jw15qaKHkW6pj';
 export const refs = {
   select: document.querySelector('.breed-select'),
   catInfo: document.querySelector('.cat-info'),
   loader: document.querySelector('.loader'),
   errorInfo: document.querySelector('.error'),
 };
-let errorText = '';
 
 fetchBreeds().then(breeds => {
   const options = breeds.map(breed => {

@@ -1,6 +1,6 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 
-export const refs = {
+const refs = {
   select: document.querySelector('.breed-select'),
   catInfo: document.querySelector('.cat-info'),
   loader: document.querySelector('.loader'),
@@ -14,18 +14,21 @@ fetchBreeds().then(breeds => {
     option.textContent = breed.name;
     return option;
   });
+
   refs.select.append(...options);
 });
 
 refs.select.addEventListener('change', function () {
+  refs.loader.classList.remove('hidden');
+  refs.errorInfo.classList.add('hidden');
   const selectedBreedId = refs.select.value;
-
+  refs.catInfo.innerHTML = '';
   fetchCatByBreed(selectedBreedId)
     .then(catData => {
-      const catUrl = catData.url;
-      const catName = catData.breeds.name;
-      const catDescription = catData.breeds.description;
-      const catTemperament = catData.breeds.temperament;
+      const catUrl = catData[0].url;
+      const catName = catData[0].breeds[0].name;
+      const catDescription = catData[0].breeds[0].description;
+      const catTemperament = catData[0].breeds[0].temperament;
       const markup = renderCat(catUrl, catName, catDescription, catTemperament);
       refs.catInfo.innerHTML = markup;
     })

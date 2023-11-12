@@ -24,12 +24,20 @@ fetchBreeds().then(breeds => {
 refs.select.addEventListener('change', function () {
   const selectedBreedId = refs.select.value;
 
-  fetchCatByBreed(selectedBreedId).then(catData => {
-    const catUrl = catData.url;
-    const catName = catData.breeds.name;
-    const catDescription = catData.breeds.description;
-    const catTemperament = catData.breeds.temperament;
-  });
+  fetchCatByBreed(selectedBreedId)
+    .then(catData => {
+      const catUrl = catData.url;
+      const catName = catData.breeds.name;
+      const catDescription = catData.breeds.description;
+      const catTemperament = catData.breeds.temperament;
+    })
+    .catch(error => {
+      refs.errorInfo.classList.remove('hidden');
+      refs.catInfo.innerHTML = '';
+    })
+    .finally(() => {
+      refs.loader.classList.add('hidden');
+    });
   const markup = renderCat(catUrl, catName, catDescription, catTemperament);
   refs.catInfo.innerHTML = markup;
 });
